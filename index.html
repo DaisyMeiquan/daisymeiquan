@@ -294,16 +294,26 @@
  white-space: nowrap; /* 确保标签内容不换行 */
  font-size: 12px; /* 默认标签字体大小 */
 }
+ 
+ /* --- START: THIS IS THE ONLY MODIFIED PART --- */
  /* 专门为第三行标签设置样式 */
  .project-content .tags .tag-awards {
- display: block; /* 确保第三个标签独占一行 */
- font-size: 10px; /* 字体缩小 */
- font-weight: 500; /* 稍微减轻字重 */
- color: var(--subtitle-color); /* 颜色保持一致 */
- background-color: transparent; /* 移除背景色，保持简洁 */
- padding: 0; /* 移除padding */
- margin-right: 0; /* 移除右边距 */
+ /* 继承通用span样式，但允许换行并调整字体 */
+ display: inline-block; /* 保持为标签块 */
+ white-space: normal;  /* 允许长文本换行 */
+ width: 100%;           /* 占满整行宽度以实现换行效果 */
+ margin-right: 0;       /* 占满一行后不再需要右边距 */
+ font-size: 10px;       /* 字体缩小 */
+ font-weight: 500;      /* 稍微减轻字重 */
+ line-height: 1.6;      /* 调整行高以适应可能的多行文本 */
+ text-align: center;    /* 文本居中显示 */
+ /* 恢复标签视觉样式 */
+ background-color: rgba(162, 119, 100, 0.1);
+ padding: 4px 10px;
+ color: var(--subtitle-color);
  }
+ /* --- END: THIS IS THE ONLY MODIFIED PART --- */
+
  .project-content .tags .tag-line-break {
  display: block; /* 用于强制换行 */
  height: 0; /* 不占高度 */
