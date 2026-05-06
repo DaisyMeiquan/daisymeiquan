@@ -15,17 +15,16 @@
  /* --- 1. 设计系统 --- */
  :root {
  --card-bg-color: rgba(255, 255, 255, 0.75);
- --text-color: #4D1308; /* 还原为原始褐色 */
+ --text-color: #4D1308;
  --heading-color: #C86A85;
- --subtitle-color: #A27764; /* 还原为原始褐色 */
+ --subtitle-color: #A27764;
  --primary-color: #E6B2BE;
  --font-heading: 'Playfair Display', serif;
  --font-body: 'Noto Sans SC', sans-serif;
- --shadow-sm: 0 4px 15px rgba(0, 0, 0, 0.07); /* 原巧克力色修改为黑色 */
- --shadow-md: 0 8px 30px rgba(0, 0, 0, 0.12); /* 原巧克力色修改为黑色 */
+ --shadow-sm: 0 4px 15px rgba(0, 0, 0, 0.07);
+ --shadow-md: 0 8px 30px rgba(0, 0, 0, 0.12);
  }
 
- /* --- 2. 基础与背景设置 --- */
  * { margin: 0; padding: 0; box-sizing: border-box; }
  html { scroll-behavior: smooth; }
 
@@ -34,7 +33,7 @@
  color: var(--text-color);
  line-height: 1.8;
  -webkit-font-smoothing: antialiased;
- background-color: #f0f2f1; /* 备用底色 */
+ background-color: #f0f2f1;
  }
  
  #app-wrapper {
@@ -43,19 +42,18 @@
  padding-top: 90px;
  }
  
- /* --- 3. 导航栏与通用磨砂效果 --- */
+ /* 导航栏 */
  .navbar {
  position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
  padding: 20px 0;
- /* 导航栏背景图使用首页背景，不需要磨砂 */
- background-image: url('assets/images/mother-of-pearl.jpg'); /* 使用首页背景图 */
+ background-image: url('assets/images/mother-of-pearl.jpg');
  background-size: cover;
  background-position: center center;
  background-repeat: no-repeat;
- background-color: transparent; /* 确保背景图可见 */
- backdrop-filter: none; /* 移除磨砂效果 */
+ background-color: transparent;
+ backdrop-filter: none;
  -webkit-backdrop-filter: none;
- border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* 原巧克力色修改为黑色 */
+ border-bottom: 1px solid rgba(0, 0, 0, 0.1);
  }
  .project-card, .contact-container, .timeline-dot, .modal-content {
  background: var(--card-bg-color);
@@ -63,7 +61,7 @@
  -webkit-backdrop-filter: blur(10px);
  }
  
- /* --- 4. 【核心】为不同板块设置背景、叠加层与自然过渡 --- */
+ /* 板块背景 */
  section, footer {
  position: relative;
  padding: 80px 0;
@@ -71,10 +69,9 @@
  background-position: center center;
  background-repeat: no-repeat;
  background-attachment: fixed;
- isolation: isolate; /* 确保伪元素在内容之下 */
+ isolation: isolate;
  }
 
- /* 创建通用的叠加层，用于实现背景磨砂和过渡效果 */
  section::before, footer::before {
  content: '';
  position: absolute;
@@ -83,59 +80,40 @@
  width: 100%;
  height: 100%;
  z-index: -1;
- /* 默认值，会被下面具体板块的样式覆盖 */
  background: transparent;
- /* 确保 backdrop-filter 也应用在伪元素上 */
- backdrop-filter: blur(0px); /* 默认不模糊 */
+ backdrop-filter: blur(0px);
  -webkit-backdrop-filter: blur(0px);
- transition: background-color 0.5s ease, backdrop-filter 0.5s ease; /* 添加过渡效果 */
+ transition: background-color 0.5s ease, backdrop-filter 0.5s ease;
  }
  
- /* 【新增】为首页添加40%透明度叠加层 */
  #home::before {
  background-color: rgba(255, 255, 255, 0.4);
- backdrop-filter: blur(0px); /* 首页背景不模糊 */
- -webkit-backdrop-filter: blur(0px);
+ backdrop-filter: blur(0px);
  }
-
- /* 【核心】为需要过渡的板块添加渐变叠加层 */
- /* #portfolio 变为 40% 白色磨砂 */
  #portfolio::before {
- background-color: rgba(255, 255, 255, 0.4); /* 40% 白色叠加 */
- backdrop-filter: blur(5px); /* 磨砂效果 */
- -webkit-backdrop-filter: blur(5px);
+ background-color: rgba(255, 255, 255, 0.4);
+ backdrop-filter: blur(5px);
  }
-
  #timeline::before {
- /* 从顶部15%的区域由透明渐变到50%透明度的白色 */
- /* 修改为直接50%白色磨砂,与portfolio平滑过渡，同时为about做准备 */
- background-color: rgba(255, 255, 255, 0.5); /* 50% 白色叠加 */
- backdrop-filter: blur(5px); /* 磨砂效果 */
- -webkit-backdrop-filter: blur(5px);
+ background-color: rgba(255, 255, 255, 0.5);
+ backdrop-filter: blur(5px);
  }
  #about::before {
- background-color: rgba(255, 255, 255, 0.5); /* about紧跟timeline，保持50%透明度磨砂 */
- backdrop-filter: blur(5px); /* 磨砂效果 */
- -webkit-backdrop-filter: blur(5px);
+ background-color: rgba(255, 255, 255, 0.5);
+ backdrop-filter: blur(5px);
  }
  #contact::before {
- /* 从50%透明度渐变到0%透明度，平滑过渡到footer */
  background: linear-gradient(to bottom, 
- rgba(255, 255, 255, 0.5) 0%, /* 从50%透明度开始 */
- rgba(255, 255, 255, 0.2) 50%, /* 中间过渡到20% */
- rgba(255, 255, 255, 0) 100%); /* 底部完全透明 */
- backdrop-filter: blur(3px); /* 稍微模糊，逐渐减弱 */
- -webkit-backdrop-filter: blur(3px);
+ rgba(255, 255, 255, 0.5) 0%, 
+ rgba(255, 255, 255, 0.2) 50%, 
+ rgba(255, 255, 255, 0) 100%);
+ backdrop-filter: blur(3px);
  }
- /* footer紧跟contact，其before元素保持透明，不加模糊，直接露出背景图 */
  footer::before {
  background-color: transparent;
  backdrop-filter: blur(0px);
- -webkit-backdrop-filter: blur(0px);
  }
 
-
- /* 设置各板块的背景图片 */
  #home {
  background-image: url('assets/images/mother-of-pearl.jpg');
  min-height: calc(100vh - 90px); 
@@ -143,30 +121,17 @@
  align-items: center;
  padding-top: 0;
  }
-
- #portfolio {
- background-image: url('assets/images/background-portfolio.jpg');
- }
-
- #timeline, #about {
- background-image: url('assets/images/background-portfolio(1).jpg');
- }
-
- #contact, footer {
- background-image: url('assets/images/mother-of-pearl.jpg');
- }
- footer { 
- padding: 40px 0; 
- text-align: center; /* 页脚版权居中 */
- }
+ #portfolio { background-image: url('assets/images/background-portfolio.jpg'); }
+ #timeline, #about { background-image: url('assets/images/background-portfolio(1).jpg'); }
+ #contact, footer { background-image: url('assets/images/mother-of-pearl.jpg'); }
+ footer { padding: 40px 0; text-align: center; }
  
- /* --- 5. 内容与板块样式 --- */
  .container { 
  position: relative;
- z-index: 2; /* 确保内容在叠加层之上 */
+ z-index: 2;
  max-width: 1200px; 
  margin: 0 auto; 
- padding: 0 40px; /* 默认容器内边距 */
+ padding: 0 40px;
  }
 
  .section-title { text-align: center; margin-bottom: 60px; }
@@ -177,83 +142,75 @@
  .btn-secondary { background: transparent; color: var(--heading-color); border-color: var(--heading-color); box-shadow: none; }
  .btn-secondary:hover { background: var(--heading-color); color: #fff; box-shadow: 0 4px 15px rgba(208, 110, 137, 0.3); }
  
- /* 首页布局调整 - 核心修改区域 */
+ /* 首页布局 - 图片放大，文字和图片整体居中 */
  #home .container { 
- max-width: 1200px; /* 限制首页容器的最大宽度 */
- padding: 0 40px; /* 保持左右内边距 */
+ max-width: 1200px; 
+ padding: 0 40px;
  }
-
  .hero-container { 
  display: grid; 
- /* 调整网格比例：左侧文本区域和右侧图片区域更平衡 */
- grid-template-columns: 1fr 1.4fr; /* 文本略多于图片，给图片更多空间 */
+ grid-template-columns: 1.2fr 1fr; 
  align-items: center; 
- gap: 60px; /* 增加两列之间的间隙 */
+ gap: 60px; 
  width: 100%; 
- margin: 0 auto; /* 居中整个hero区域 */
+ margin: 0 auto;
 }
  .hero-text {
  text-align: left; 
  padding-left: 0; 
  margin-left: 0;
  }
- /* 首页字体保持之前的尺寸 */
- .hero-text p[data-lang-key="hero_greeting"] { font-size: 20px; } /* 你好，我是 */
- .hero-text h1 { font-family: var(--font-heading); font-size: 54px; font-weight: 700; color: var(--heading-color); line-height: 1.2; margin: 8px 0; } /* 名字 */
+ .hero-text p[data-lang-key="hero_greeting"] { font-size: 20px; }
+ .hero-text h1 { font-family: var(--font-heading); font-size: 54px; font-weight: 700; color: var(--heading-color); line-height: 1.2; margin: 8px 0; }
  .hero-text .typed-output { 
- font-size: 24px; /* 影视导演 */
+ font-size: 24px;
  color: var(--subtitle-color); 
  font-weight: 500; 
  margin-bottom: 15px; 
- height: auto; 
- white-space: nowrap; /* 确保不换行 */
- min-height: 30px; /* 确保 Typed.js 元素有最小高度，避免内容跳动 */
+ min-height: 45px;
 }
  .hero-text p[data-lang-key="hero_intro"] { 
- font-size: 16px; /* 介绍段落 */
+ font-size: 16px;
  color: var(--text-color); 
  opacity: 0.9; 
- max-width: 500px; /* 恢复一个合理的宽度，避免文本过长 */
+ max-width: 500px;
  margin: 15px 0 25px 0; 
  }
- .hero-actions { display: flex; gap: 15px; /* 按钮保持在一行 */ }
+ .hero-actions { display: flex; gap: 15px; }
  
- /* 首页图片和背景圆圈调整 */
+ /* 图片放大：圆环和图片都放大 */
  .hero-image-wrapper { 
  position: relative; 
  display: flex; 
- justify-content: center; /* 在网格中居中 */
+ justify-content: center;
  align-items: center;
  width: 100%; 
- max-width: 500px; /* 进一步限制图片组件的最大宽度，使其在网格列内放大 */
- margin: 0 auto; /* 在其网格列内居中 */
- aspect-ratio: 1 / 1; /* 保持宽高比 */
- overflow: visible; /* 允许内容溢出 */
+ max-width: 500px;
+ margin: 0 auto;
+ aspect-ratio: 1 / 1;
+ overflow: visible;
  }
  .hero-image-wrapper .background-shape {
- /* 圆环占父容器的100% */
  position: absolute;
  top: 50%;
  left: 50%;
  transform: translate(-50%, -50%); 
- width: 100%; /* 占其父容器（hero-image-wrapper）的100% */
- height: 100%;
+ width: 94%;
+ height: 94%;
  background-color: rgba(255, 255, 255, 0.4); 
  backdrop-filter: blur(10px);
- -webkit-backdrop-filter: blur(10px);
  border-radius: 50%;
  box-shadow: var(--shadow-md);
  z-index: 1; 
  display: block; 
  }
  .hero-image-wrapper img {
- /* 照片占父容器的80% */
  position: absolute;
  top: 50%;
  left: 50%;
  transform: translate(-50%, -50%); 
- width: 80%; /* 占其父容器（hero-image-wrapper）的80% */
- height: 80%; 
+ width: 76%;
+ height: 76%; 
  object-fit: cover;
  border-radius: 50%; 
  box-shadow: var(--shadow-sm); 
@@ -266,6 +223,7 @@
 }
  @keyframes blink { 50% { opacity: 0; } } 
 
+ /* 作品集样式 - 三个独立标签，前两个同行，第三个换行 */
  .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
  .portfolio-category-title { grid-column: 1 / -1; font-family: var(--font-heading); font-size: 28px; color: var(--text-color); margin: 40px 0 10px 0; padding-bottom: 10px; border-bottom: 2px solid rgba(0, 0, 0, 0.2); }
  .project-card { border-radius: 12px; overflow: hidden; box-shadow: var(--shadow-sm); transition: transform 0.3s ease, box-shadow 0.3s ease; cursor: pointer; display: flex; flex-direction: column; }
@@ -273,33 +231,37 @@
  .project-image img { width: 100%; display: block; aspect-ratio: 16 / 9; object-fit: cover; }
  .project-content { padding: 25px; flex-grow: 1;}
  .project-content .tags { 
- font-size: 12px; 
- font-weight: 700; 
- color: var(--subtitle-color); 
- background-color: rgba(162, 119, 100, 0.1); 
- padding: 4px 10px; 
- border-radius: 20px; 
- margin-bottom: 5px; 
- display: inline-block; 
- line-height: 1.8; 
- margin-right: 8px; /* 标签之间间距 */
- white-space: nowrap; /* 确保标签内容不换行 */
+ display: flex;
+ flex-wrap: wrap;
+ gap: 8px;
+ margin-bottom: 10px;
 }
- .project-content .tags span {
- display: inline-block; /* 确保每个标签都是独立的行内块元素 */
- margin-bottom: 5px; /* 标签行之间的间距 */
- }
- /* 作品集第三个标签（奖项）的样式 */
- .project-content .tags .project-tags-awards {
- font-size: 10px; /* 字体缩小 */
- font-weight: 500; /* 可以调整权重，保持可读性 */
- /* 如果需要，可以调整颜色 */
- background-color: transparent; /* 奖项标签不需要背景色 */
- padding: 0; /* 奖项标签不需要内边距 */
- border-radius: 0; /* 奖项标签不需要圆角 */
- }
-
+ .project-content .tag-item {
+ display: inline-block;
+ font-size: 12px;
+ font-weight: 700;
+ color: var(--subtitle-color);
+ background-color: rgba(162, 119, 100, 0.12);
+ padding: 5px 12px;
+ border-radius: 30px;
+ line-height: 1.4;
+ white-space: nowrap;
+}
+ .project-content .tag-item-full {
+ display: block;
+ font-size: 10px;
+ font-weight: 600;
+ color: var(--subtitle-color);
+ background-color: rgba(162, 119, 100, 0.18);
+ padding: 6px 12px;
+ border-radius: 30px;
+ margin-top: 5px;
+ text-align: center;
+ line-height: 1.4;
+ width: 100%;
+}
  .project-content h3 { font-family: var(--font-heading); font-size: 22px; color: var(--text-color); margin-bottom: 10px; }
+ 
  .timeline-container { max-width: 800px; margin: 0 auto; position: relative; }
  .timeline-container::before { content: ''; position: absolute; left: 20px; top: 20px; bottom: 20px; width: 4px; background-color: rgba(0, 0, 0, 0.15); }
  .timeline-item { position: relative; margin-bottom: 50px; padding-left: 60px; }
@@ -311,9 +273,7 @@
  .about-container { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 80px; }
  .about-image img { width: 100%; border-radius: 12px; box-shadow: var(--shadow-md); }
  .about-text h3 { font-family: var(--font-heading); font-size: 32px; color: var(--heading-color); margin-bottom: 20px; line-height: 1.4; }
- .about-text h3 strong { display: block; }
  .about-text p { margin-bottom: 1.5em; }
- .about-text p:last-child { margin-bottom: 0; }
  .contact-container { max-width: 700px; margin: 0 auto; padding: 50px; border-radius: 12px; box-shadow: var(--shadow-md); text-align: center; }
  .contact-info a { font-size: 22px; font-weight: 500; color: var(--subtitle-color); text-decoration: none; }
  .social-links { margin-top: 40px; display: flex; justify-content: center; gap: 50px; }
@@ -321,111 +281,123 @@
  .social-links a:hover { color: var(--heading-color); transform: translateY(-3px); }
  .social-links a i { font-size: 44px; }
  .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0, 0, 0, 0.8); }
- .modal-content { position: relative; margin: 5% auto; padding: 30px 40px; border-radius: 12px; width: 90%; max-width: 900px; box-shadow: var(--shadow-md); animation: slideIn 0.4s ease-out; }
+ .modal-content { position: relative; margin: 5% auto; padding: 30px 40px; border-radius: 12px; width: 90%; max-width: 900px; box-shadow: var(--shadow-md); animation: slideIn 0.4s ease-out; background: var(--card-bg-color); backdrop-filter: blur(10px); }
  .close-button { color: var(--subtitle-color); position: absolute; top: 15px; right: 25px; font-size: 35px; font-weight: bold; cursor: pointer; }
- .close-button:hover, .close-button:focus { color: var(--heading-color); }
- @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
- @keyframes slideIn { from { transform: translateY(-50px); opacity: 0; } to { translateY(0); opacity: 1; } }
+ .close-button:hover { color: var(--heading-color); }
+ @keyframes slideIn { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
  .modal-video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; background-color: #000; border-radius: 8px; margin-bottom: 25px; }
  .modal-video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
  .modal-details h3 { font-family: var(--font-heading); font-size: 28px; color: var(--heading-color); margin: 0 0 15px; }
  .modal-details h4 { font-family: var(--font-body); font-weight: 700; font-size: 16px; color: var(--text-color); margin-top: 20px; margin-bottom: 10px; border-left: 3px solid var(--primary-color); padding-left: 10px; }
- .modal-details p { font-size: 15px; margin-bottom: 10px; color: var(--text-color); opacity: 0.9; line-height: 1.8; }
+ .modal-details p { font-size: 15px; margin-bottom: 10px; color: var(--text-color); opacity: 0.9; line-height: 1.8; white-space: pre-wrap; }
  #wechatModal .modal-content { max-width: 350px; text-align: center; padding-top: 40px; }
  #wechatModal img { width: 80%; max-width: 200px; margin: 20px auto; display: block; border-radius: 8px; }
- #wechatModal p { font-size: 16px; margin-bottom: 5px; }
- #wechatModal .wechat-id { font-weight: bold; padding: 5px 10px; border-radius: 5px; display: inline-block; cursor: pointer; }
- #wechatModal .copy-feedback { font-size: 12px; color: var(--heading-color); height: 15px; margin-top: 5px; font-weight: bold; }
- .navbar .container { display: flex; justify-content: space-between; align-items: center; }
+ #wechatModal .wechat-id { font-weight: bold; padding: 5px 10px; border-radius: 5px; display: inline-block; cursor: pointer; background: rgba(0,0,0,0.05); }
+ .navbar .container { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
  .navbar .nav-logo { font-family: var(--font-heading); font-size: 24px; font-weight: 700; text-decoration: none; color: var(--text-color); }
- .nav-links { list-style: none; display: flex; align-items: center; }
- .nav-links li { margin-left: 35px; }
+ .nav-links { list-style: none; display: flex; align-items: center; gap: 35px; }
  .nav-links a { text-decoration: none; font-weight: 500; position: relative; padding-bottom: 5px; color: var(--text-color); opacity: 0.7; transition: opacity 0.3s; }
  .nav-links a:hover { opacity: 1; }
  .nav-links a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background-color: var(--heading-color); transition: width 0.3s ease; }
  .nav-links a:hover::after { width: 100%; }
  .lang-switcher { display: flex; align-items: center; gap: 5px; margin-left: 20px; }
- .lang-switcher span { color: var(--text-color); opacity: 0.5; font-size: 14px; user-select: none; }
- .lang-switcher a.lang-btn { text-decoration: none; font-weight: 700; font-size: 14px; padding: 2px 5px; border-radius: 5px; color: var(--text-color); opacity: 1; }
- .lang-switcher a.lang-btn.active { background-color: var(--primary-color); color: var(--text-color); opacity: 1; }
+ .lang-switcher span { color: var(--text-color); opacity: 0.5; font-size: 14px; }
+ .lang-switcher a.lang-btn { text-decoration: none; font-weight: 700; font-size: 14px; padding: 2px 5px; border-radius: 5px; color: var(--text-color); cursor: pointer; }
+ .lang-switcher a.lang-btn.active { background-color: var(--primary-color); color: var(--text-color); }
 
- /* 响应式调整 */
  @media (max-width: 992px) {
- #home .container { /* 移动端重新限制 container 宽度和 padding */
- max-width: 1200px; 
- padding: 0 40px;
- }
- .hero-container {
- grid-template-columns: 1fr; /* 在中等屏幕下改为单列 */
- text-align: center;
- padding: 0; /* 移除自定义 padding */
- max-width: none; /* 允许其根据内容自行调整宽度 */
- }
- .hero-image-wrapper {
- margin: 40px auto 0; /* 居中图片 */
- order: -1; /* 将图片移到文本上方 */
- justify-content: center; /* 在移动端居中 */
- max-width: 300px; /* 移动端图片尺寸限制 */
- }
- .hero-text p {
- max-width: 100%; /* 文本宽度适应 */
- margin-left: auto; /* 居中 */
- margin-right: auto; /* 居中 */
- }
- .hero-actions {
- justify-content: center; /* 按钮居中 */
- }
- /* 导航栏在移动端可能需要背景色而非图片，以保证可读性 */
- .navbar {
- background-image: none;
- background-color: rgba(240, 242, 241, 0.7); /* 移动端重新引入磨砂背景色 */
- backdrop-filter: blur(12px);
- -webkit-backdrop-filter: blur(12px);
- }
- /* 移动端标签字体缩小 */
- .project-content .tags {
- font-size: 10px;
- padding: 3px 8px;
- }
+ .hero-container { grid-template-columns: 1fr; text-align: center; gap: 30px; }
+ .hero-text { text-align: center; margin: 0 auto; }
+ .hero-text p[data-lang-key="hero_intro"] { margin-left: auto; margin-right: auto; }
+ .hero-actions { justify-content: center; }
+ .hero-image-wrapper { max-width: 320px; margin: 0 auto; order: -1; }
+ .navbar { background-image: none; background-color: rgba(240, 242, 241, 0.9); backdrop-filter: blur(12px); }
+ .nav-links { gap: 20px; }
+ .project-content .tag-item { font-size: 10px; padding: 4px 8px; }
+ .project-content .tag-item-full { font-size: 9px; }
  }
  </style>
 </head>
 <body>
 
 <div id="app-wrapper">
- <nav class="navbar"><div class="container"><a href="#home" class="nav-logo">WMQ</a><ul class="nav-links"><li><a href="#portfolio" data-lang-key="nav_portfolio"></a></li><li><a href="#timeline" data-lang-key="nav_timeline"></a></li><li><a href="#about" data-lang-key="nav_about"></a></li><li><a href="#contact" data-lang-key="nav_contact"></a></li></ul><div class="lang-switcher"><a href="#" class="lang-btn" data-lang="zh">中</a><span>/</span><a href="#" class="lang-btn" data-lang="en">EN</a></div></div></nav>
- <section id="home"><div class="container hero-container"><div class="hero-text"><p style="font-weight: 500;" data-lang-key="hero_greeting"></p><h1>王渼荃</h1><div class="typed-output"><span class="static-role"></span></div><p data-lang-key="hero_intro"></p><div class="hero-actions"><a href="#portfolio" class="btn" data-lang-key="hero_btn_explore"></a><a href="assets/files/my_cv.pdf" class="btn btn-secondary" target="_blank" rel="noopener noreferrer" data-lang-key="hero_btn_cv"></a></div></div><div class="hero-image-wrapper"><div class="background-shape"></div><img src="assets/images/my-photo.jpg" alt="王渼荃的个人照片"></div></div></section>
+ <nav class="navbar">
+    <div class="container">
+        <a href="#home" class="nav-logo">WMQ</a>
+        <ul class="nav-links">
+            <li><a href="#portfolio" data-lang-key="nav_portfolio"></a></li>
+            <li><a href="#timeline" data-lang-key="nav_timeline"></a></li>
+            <li><a href="#about" data-lang-key="nav_about"></a></li>
+            <li><a href="#contact" data-lang-key="nav_contact"></a></li>
+        </ul>
+        <div class="lang-switcher">
+            <a class="lang-btn" data-lang="zh">中</a><span>/</span>
+            <a class="lang-btn" data-lang="en">EN</a>
+        </div>
+    </div>
+ </nav>
+ 
+ <section id="home">
+    <div class="container hero-container">
+        <div class="hero-text">
+            <p style="font-weight: 500;" data-lang-key="hero_greeting"></p>
+            <h1>王渼荃</h1>
+            <div class="typed-output"><span id="typed-role"></span></div>
+            <p data-lang-key="hero_intro"></p>
+            <div class="hero-actions">
+                <a href="#portfolio" class="btn" data-lang-key="hero_btn_explore"></a>
+                <a href="assets/files/my_cv.pdf" class="btn btn-secondary" target="_blank" data-lang-key="hero_btn_cv"></a>
+            </div>
+        </div>
+        <div class="hero-image-wrapper">
+            <div class="background-shape"></div>
+            <img src="assets/images/my-photo.jpg" alt="王渼荃的个人照片">
+        </div>
+    </div>
+ </section>
  
  <section id="portfolio">
- <div class="container">
- <div class="section-title">
- <h2 data-lang-key="portfolio_title"></h2>
- <p data-lang-key="portfolio_subtitle"></p>
- </div>
- <div class="portfolio-grid">
- <h3 class="portfolio-category-title" data-lang-key="cat_aigc"></h3>
- <div class="project-card" data-project-id="project1"><div class="project-image"><img src="assets/images/project-peekaboo.jpg" alt="Peekaboo"></div><div class="project-content"><div class="tags" data-lang-key="p1_tags"></div><h3 data-lang-key="p1_title"></h3></div></div>
- <div class="project-card" data-project-id="project2"><div class="project-image"><img src="assets/images/project-companion.jpg" alt="Companion Trailer"></div><div class="project-content"><div class="tags" data-lang-key="p2_tags"></div><h3 data-lang-key="p2_title"></h3></div></div>
- 
- <h3 class="portfolio-category-title" data-lang-key="cat_doc"></h3>
- <div class="project-card" data-project-id="project4"><div class="project-image"><img src="assets/images/project-taohua.jpg" alt="Tao Hua Zong Meng"></div><div class="project-content"><div class="tags" data-lang-key="p4_tags"></div><h3 data-lang-key="p4_title"></h3></div></div>
- <div class="project-card" data-project-id="project5"><div class="project-image"><img src="assets/images/project-chunheqiu.jpg" alt="Chunheqiuye"></div><div class="project-content"><div class="tags" data-lang-key="p5_tags"></div><h3 data-lang-key="p5_title"></h3></div></div>
- <div class="project-card" data-project-id="project6"><div class="project-image"><img src="assets/images/project-chongqing.jpg" alt="City of Echoing Rhymes"></div><div class="project-content"><div class="tags" data-lang-key="p6_tags"></div><h3 data-lang-key="p6_title"></h3></div></div>
-
- <h3 class="portfolio-category-title" data-lang-key="cat_mv"></h3>
- <div class="project-card" data-project-id="project3"><div class="project-image"><img src="assets/images/project-movie-love.jpg" alt="Love You Like a Movie"></div><div class="project-content"><div class="tags" data-lang-key="p3_tags"></div><h3 data-lang-key="p3_title"></h3></div></div>
- 
- <h3 class="portfolio-category-title" data-lang-key="cat_commercial"></h3>
- <div class="project-card" data-project-id="project7"><div class="project-image"><img src="assets/images/project-zuman.jpg" alt="Zuman"></div><div class="project-content"><div class="tags" data-lang-key="p7_tags"></div><h3 data-lang-key="p7_title"></h3></div></div>
- <div class="project-card" data-project-id="project8"><div class="project-image"><img src="assets/images/project-hbn.jpg" alt="HBN"></div><div class="project-content"><div class="tags" data-lang-key="p8_tags"></div><h3 data-lang-key="p8_title"></h3></div></div>
- <div class="project-card" data-project-id="project9"><div class="project-image"><img src="assets/images/project-weixun.jpg" alt="Tipsy Moment"></div><div class="project-content"><div class="tags" data-lang-key="p9_tags"></div><h3 data-lang-key="p9_title"></h3></div></div>
- </div>
- </div>
+    <div class="container">
+        <div class="section-title">
+            <h2 data-lang-key="portfolio_title"></h2>
+            <p data-lang-key="portfolio_subtitle"></p>
+        </div>
+        <div class="portfolio-grid" id="portfolioGrid"></div>
+    </div>
  </section>
 
- <section id="timeline"><div class="container"><div class="section-title"><h2 data-lang-key="timeline_title"></h2><p data-lang-key="timeline_subtitle"></p></div><div class="timeline-container"><div class="timeline-item"><div class="timeline-dot">NOW</div><div class="timeline-content"><h4 data-lang-key="t1_title"></h4><p data-lang-key="t1_school"></p><ul><li data-lang-key="t1_p1"></li><li data-lang-key="t1_p2"></li></ul></div></div><div class="timeline-item"><div class="timeline-dot">2024</div><div class="timeline-content"><h4 data-lang-key="t2_title"></h4><ul><li data-lang-key="t2_p1"></li></ul></div></div><div class="timeline-item"><div class="timeline-dot">2023</div><div class="timeline-content"><h4 data-lang-key="t3_title"></h4><ul><li data-lang-key="t3_p1"></li><li data-lang-key="t3_p2"></li></ul></div></div><div class="timeline-item"><div class="timeline-dot">2021</div><div class="timeline-content"><h4 data-lang-key="t4_title"></h4><p data-lang-key="t4_major"></p><ul><li data-lang-key="t4_p1"></li><li data-lang-key="t4_p2"></li></ul></div></div></div></div></section>
- <section id="about"><div class="container about-container"><div class="about-image"><img src="assets/images/about-photo.jpg" alt="王渼荃工作照"></div><div class="about-text"><h3 data-lang-key="about_title"></h3><p data-lang-key="about_p1"></p><p data-lang-key="about_p2"></p><p data-lang-key="about_p3"></p></div></div></section>
- <section id="contact"><div class="container"><div class="contact-container"><div class="section-title" style="margin-bottom: 30px;"><h2 data-lang-key="contact_title"></h2><p data-lang-key="contact_subtitle"></p></div><div class="contact-info"><p><a href="mailto:15155351836@163.com"><i class="fas fa-envelope"></i> 15155351836@163.com</a></p></div><div class="social-links"><a href="#" id="wechat-btn" title="微信" data-wechat-id="Daisy__light"><i class="fab fa-weixin"></i></a><a href="https://wa.me/85267477599" target="_blank" rel="noopener noreferrer" title="WhatsApp"><i class="fab fa-whatsapp"></i></a></div></div></div></section>
+ <section id="timeline">
+    <div class="container">
+        <div class="section-title"><h2 data-lang-key="timeline_title"></h2><p data-lang-key="timeline_subtitle"></p></div>
+        <div class="timeline-container" id="timelineContainer"></div>
+    </div>
+ </section>
+ 
+ <section id="about">
+    <div class="container about-container">
+        <div class="about-image"><img src="assets/images/about-photo.jpg" alt="王渼荃工作照"></div>
+        <div class="about-text">
+            <h3 data-lang-key="about_title"></h3>
+            <p data-lang-key="about_p1"></p>
+            <p data-lang-key="about_p2"></p>
+            <p data-lang-key="about_p3"></p>
+        </div>
+    </div>
+ </section>
+ 
+ <section id="contact">
+    <div class="container">
+        <div class="contact-container">
+            <div class="section-title" style="margin-bottom: 30px;"><h2 data-lang-key="contact_title"></h2><p data-lang-key="contact_subtitle"></p></div>
+            <div class="contact-info"><p><a href="mailto:15155351836@163.com"><i class="fas fa-envelope"></i> 15155351836@163.com</a></p></div>
+            <div class="social-links">
+                <a href="#" id="wechat-btn" title="微信" data-wechat-id="Daisy__light"><i class="fab fa-weixin"></i></a>
+                <a href="https://wa.me/85267477599" target="_blank" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+            </div>
+        </div>
+    </div>
+ </section>
+ 
  <footer><div class="container"><p data-lang-key="footer_copyright"></p></div></footer>
 </div>
 
@@ -435,292 +407,180 @@
 <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+ // ================= 完整项目数据 (中英文全部使用B站链接) =================
  const projectsData = {
  zh: {
- project1: { 
- title: 'Peekaboo 躲猫猫', 
- videoId: 'BV1x9RCBqEQp', // Bilibili ID
- awards: '2026香港数码港AI生成电影大赛 冠军 + 最佳叙事奖',
- desc: '作为本片的独立制作人，我在完成剧本后，运用AIGC工具链主导了分镜、角色设计、动画生成与后期合成的全流程。',
- insp: '这个故事源于一个简单的疑问：当一个阿尔茨海默症患者的记忆逐渐模糊，他最想留住的是什么？ 查阅资料时，我发现一个现象：患者常常忘记几分钟前的事，却对几十年前的画面记忆犹新。<br><br>于是我想象一种“记忆协议”——趁还记得，把最快乐的瞬间封存进金色阳光里：薰衣草田、游乐园、电话亭里的躲猫猫。相机按下快门的那一刻，色彩是满的、暖的、活的。<br><br>我以阿尔兹海默症患者这个庞大的群体为创作基础，立足于他们最真实的困境——忘记亲人的面孔，也忘记镜子里那个苍老的自己。当记忆断裂、语言失效，我们依然可以用最简单的游戏，与他们保持连接。<br><br>躲猫猫。数到一百，然后在老地方等你。陪伴是最好的良药。这就是《Peekaboo》想说的。'
+   project1: { title: 'Peekaboo 躲猫猫', videoId: 'BV1x9RCBqEQp', tags: ['AIGC剧情短片', '独立制作'], tagFull: '香港数码港AI生成电影创意大赛冠军 + 最佳叙事奖', awards: '香港数码港AI生成电影创意大赛冠军 + 最佳叙事奖', desc: '作为本片的独立制作人，我在完成剧本后，运用AIGC工具链主导了分镜、角色设计、动画生成与后期合成的全流程。', insp: '这个故事源于一个简单的疑问：当一个阿尔茨海默症患者的记忆逐渐模糊，他最想留住的是什么？ 查阅资料时，我发现一个现象：患者常常忘记几分钟前的事，却对几十年前的画面记忆犹新。<br><br>于是我想象一种“记忆协议”——趁还记得，把最快乐的瞬间封存进金色阳光里：薰衣草田、游乐园、电话亭里的躲猫猫。相机按下快门的那一刻，色彩是满的、暖的、活的。<br><br>我以阿尔兹海默症患者这个庞大的群体为创作基础，立足于他们最真实的困境——忘记亲人的面孔，也忘记镜子里那个苍老的自己。当记忆断裂、语言失效，我们依然可以用最简单的游戏，与他们保持连接。<br><br>躲猫猫。数到一百，然后在老地方等你。陪伴是最好的良药。这就是《Peekaboo》想说的。' },
+   project2: { title: '《伴侣》预告片', videoId: 'BV11dRCBKE78', tags: ['AIGC剧情片', '编导/制作'], tagFull: '奇幻 / 剧情 / 心理超现实', desc: '个人探索项目（创作中），这是我个人发起的一项AIGC创作实验，探索AI在镜头语言与氛围营造中的表现边界。', story: '24岁白领林晚深夜加班后坠入梦境，目睹三重隐喻：水中舞者高举火把却无视淹没至胸口的危机；屋顶嬉笑的成年人徒具童真的躯壳；舞台扇后舞者因久戴面具而迷失真我。惊醒于凌晨工位，她意识到焦虑的本质非惧失去，而是恐惧在麻木忙碌中丧失自我觉察。最终持辞职信走向办公室，完成从"忘我沉沦"到"清醒自救"的觉醒。<br><br>故事以超现实梦境解构当代青年的存在困境，探讨工具理性对人的异化与主体意识的回归。' },
+   project3: { title: '像电影一样爱你', videoId: 'BV1Pb9aBwEjS', tags: ['微电影 / 音乐MV', '导演/编剧'], tagFull: '重庆艺术展演微电影三等奖 + 大学生技能大赛一等奖 + 入围csff影展', awards: '重庆艺术展演微电影三等奖 + 大学生技能大赛一等奖 + 入围csff影展', desc: '《像电影一样爱你》作为一部音乐MV设计了固定镜头和手持镜头模拟出时空交错的戏剧感，使影片节奏张弛有度，不仅在重庆的大街小巷中致敬了浪漫的经典桥段，也传达出对于“理想”、“爱情”真谛和人生的深深思索。', insp: '灵感源自《情书》《爱乐之城》《这个杀手不太冷》。让男女主角穿梭现实与电影梦境，平行蒙太奇重现爱情电影经典瞬间。' },
+   project4: { title: '桃花宗梦', videoId: 'BV1yQ9YBNEcc', tags: ['纪录片', '独立制作'], tagFull: '优秀毕业设计', awards: '优秀毕业设计', desc: '本作品是以宗族文化传承者翟军个人行为为例，讲述在当今社会快速发展的过程中，翟军对宗族文化的坚守，并通过深入跟踪拍摄，揭示翟军在坚守宗族文化路上所付出的努力。', insp: '“梦”是个人心中对未来的憧憬，也是水东翟氏宗族文化的重构。《桃花宗梦》呈现翟军对家族的深厚情怀，唤醒全球化语境下自我文化身份的再审视。' },
+   project5: { title: '春禾秋野——面包店等风也等你', videoId: 'BV1Df9eBEEzT', tags: ['纪录片', '剪辑'], tagFull: '纪实/人文', desc: '本片以“自由”为内核，记录重庆南山面包店“春禾秋野”主理人小野的山居日常。影片采用观察型纪实手法，通过揉面、等待、烘焙、与客人交谈等细节，让“松弛、慢、自由”自然生长。', insp: '春是发酵，禾是麦田，秋是炉火，野是南山。让每一炉面包成为时间的果实。' },
+   project6: { title: '重韵之城', videoId: 'BV1KW9aBvExD', tags: ['纪录片/人文/纪实', '编导/摄影'], tagFull: '重庆“IP·创未来”人文纪录短片三等奖 + 优秀版权奖', awards: '重庆“IP·创未来”人文纪录短片三等奖 + 优秀版权奖', desc: '《重韵之城》聚焦重庆人文精神，拾捡城市文化底蕴。拍摄雨景居多，冷调影象传递棒棒群像、川江号子、船工的坚守，以及中敖火龙的非遗传承。', insp: '源于重庆发展变迁，江城精神从未改变。' },
+   project7: { title: '足满人间', videoId: 'BV1hV9aBGEUb', tags: ['文化宣传片', '美术/剪辑'], tagFull: '巴蜀文化旅游走廊大足石刻华服视频三等奖 + 荣登重庆日报', awards: '巴蜀文化旅游走廊大足石刻华服视频三等奖 + 荣登重庆日报', desc: '捕捉大足石刻前世今生，以禅意宁静的镜头语言，展现石刻艺术与现代心灵的回归。', insp: '源于“大道至简”哲学，大足石刻是心灵的平静之地。' },
+   project8: { title: '81岁的HBN美少女', videoId: 'BV1y89aBhEVA', tags: ['创意广告', '编导'], tagFull: '第15届大学生广告艺术大赛优秀奖', awards: '第15届大学生广告艺术大赛优秀奖', desc: '黑白复古色调，轻快音乐与字幕，通过18岁与81岁对比幽默呈现抗衰主题，致敬卓别林式喜剧。', insp: '对年龄焦虑的幽默回应，生命活力无关年龄。' },
+   project9: { title: '微醺一刻', videoId: 'BV1UJ9aBME2Q', tags: ['创意广告', '编导/剪辑'], tagFull: '第33届时报金犊奖大陆赛区优秀广告设计奖 + 剪辑奖', awards: '第33届时报金犊奖大陆赛区优秀广告设计奖 + 剪辑奖', desc: '以色彩丰富视觉效果表现“微醺”状态，境随心转的镜头切换增强产品感染力。', insp: '都市女性生活观察，微醺成为自信放松的象征。' }
  },
- project2: { 
- title: '《伴侣》预告', 
- videoId: 'BV11dRCBKE78', // Bilibili ID
- desc: '个人探索项目（创作中），这是我个人发起的一项AIGC创作实验，探索AI在镜头语言与氛围营造中的表现边界。',
- story: '24岁白领林晚深夜加班后坠入梦境，目睹三重隐喻：水中舞者高举火把却无视淹没至胸口的危机；屋顶嬉笑的成年人徒具童真的躯壳；舞台扇后舞者因久戴面具而迷失真我。惊醒于凌晨工位，她意识到焦虑的本质非惧失去，而是恐惧在麻木忙碌中丧失自我觉察。最终持辞职信走向办公室，完成从"忘我沉沦"到"清醒自救"的觉醒。<br><br>故事以超现实梦境解构当代青年的存在困境，探讨工具理性对人的异化与主体意识的回归。'
- },
- project3: { 
- title: '像电影一样爱你', 
- videoId: 'BV1Pb9aBwEjS', // Bilibili ID
- awards: '重庆艺术展演微电影三等奖 + 大学生技能大赛一等奖 + 入围csff影展',
- desc: '《像电影一样爱你》作为一部音乐MV设计了固定镜头和手持镜头模拟出时空交错的戏剧感，使影片节奏张弛有度，不仅在重庆的大街小巷中致敬了浪漫的经典桥段，也传达出对于“理想”、“爱情”真谛和人生的深深思索，在主题上营造出对于爱、理想的追求以及不屈不挠的精神品质。',
- insp: '这个作品的创作灵感源自光影交织的电影经典——《情书》的细腻、《爱乐之城》的璀璨，以及《这个杀手不太冷》的温情……它们不仅塑造了我的观影轨迹，更赋予了我丰富的人生体验：孤寂中的深思、欢愉中的轻舞，乃至牺牲后的释然。我倾心打造了这部作品，让男女主角穿梭于现实与电影梦境之间，通过平行蒙太奇的魔法，重现一幕幕爱情电影的经典瞬间。'
- },
- project4: { 
- title: '桃花宗梦', 
- videoId: 'BV1yQ9YBNEcc', // Bilibili ID
- awards: '优秀毕业设计',
- desc: '本作品是以宗族文化传承者翟军个人行为为例，讲述在当今社会快速发展的过程中，翟军对宗族文化的坚守，并通过深入跟踪拍摄，揭示翟军在坚守宗族文化路上所付出的努力，以及他面对各种问题时所展现的坚持与担当。<br><br>同时，本作品着重对宗族文化的当代价值进行探究，以翟军的小我行为打开话题，引领公众思考宗族文化对个人、家庭以及社会的重要意义。作品围绕翟军对宗族文化守护的真实故事，通过纪录片探寻传统文化，旨在唤起公众对于宗族文化的重视，并对其产生共鸣，共同为传承而努力。',
- insp: '在我看来，“梦”是个人心中对未来的憧憬和希望，也可以指代一个群体共同奋斗的方向和目标。“宗梦”则是水东翟氏宗族文化的重构。对于过往的那些辉煌岁月进行回望，也会对未来的花样年华产生期许。《桃花宗梦》里“梦”的提出，呈现了翟军先生对家族的深厚情怀，同时也是对全球化背景下自我身份与文化的再度审视。<br><br>同样，翟军所经历的故事，对于处在当今多元文化冲突与融合环境下的我们而言，是一个极为恰当的提醒。它让我们明白，要始终维持自身的文化身份以及文化认同，牢牢坚守住属于自己的文化根基，保持住文化尊严。让我们坚守自己的文化之根，尊重与欣赏对方的文化，共同维护人类的多元文化，为人类建设更加美好的世界而努力。'
- },
- project5: { 
- title: '春禾秋野——面包店等风也等你', 
- videoId: 'BV1Df9eBEEzT', // Bilibili ID
- desc: '本片以“自由”为内核，记录重庆南山面包店“春禾秋野”主理人小野的山居日常。我们无意讲述一个成功创业的故事，而是想呈现一种选择：当一个人决定以面团发酵的速度来生活，以窑火的温度来丈量时间的刻度，她会看到怎样的晨昏与四季。<br><br>影片采用观察型纪实手法，不制造戏剧冲突，仅通过揉面、等待、烘焙、与客人交谈等日常细节，让“松弛、慢、自由”这三个刻在店里的词，自然地生长进画面里。我们希望观众被面粉扬起的光照亮，被出炉的面包香气触动，进而在心底问自己一句——我所理解的自由，又是什么模样？',
- insp: '春禾秋野：春是发酵，禾是麦田，秋是炉火，野是南山。春天揉进山雾与酵母，夏天耐住湿热的等待，秋天烤出落叶色的脆壳，冬天用面团包裹窗外的寒意。让每一炉面包都成为时间的果实，让这家小店成为城市边缘的一个节气——提醒匆匆下山的人：有些香气，值得用一整座山来慢慢养。<br><br>而这一切的底色，是小野挂在嘴上的那句话：“所谓热爱，就是无论重新开始多少次，我都愿意。”她说，我全部的野心就是自由的一生。点餐台上那块木牌刻着三个词：“松弛、慢、自由”。<br><br>于是这家面包店的意义也因此变得更加清晰：它的香气不只为抵达口腹，更是一种无声的邀请——让每一个推开木门的人都试一试，试着在麦香里停一停，试着在面团发酵的速度里，重新学会自由。'
- },
- project6: { 
- title: '重韵之城', 
- videoId: 'BV1KW9aBvExD', // Bilibili ID
- awards: '重庆“IP·创未来”人文纪录短片三等奖 + 优秀版权奖',
- desc: '《重韵之城》是一部聚焦重庆人文精神的纪录短片，旨在拾捡与传承这座城市丰富的文化底蕴。拍摄期间正值梅雨季，画面中常常弥漫着雨景，营造出一种偏冷的影调。我们通过模糊的个体与立体的剪影，传达出棒棒群像的精神。<br><br>川江号子是川渝地区的劳动交响曲，船工则象征着重庆江上的开放包容。拍摄地点选在重庆主城最后的车渡码头，在现代船工的身上，我们看到了昨日劳动人民的坚守与奋斗。<br><br>中敖火龙于2012年被重庆市政府列入市级非物质文化遗产，它从最初的“忠孝”文化活动演变成一种全民参与的祈福求吉民俗文化活动。传承人已是一位古稀之年的老先生，但他对火龙制作工艺的执着与对火龙文化的热爱在镜头下被真实地记录下来。',
- insp: '这个作品的创作灵感源自我对重庆这座城市发展变迁的深刻思考。由于山城重庆独特的地理环境，孕育了“棒棒”这一特殊行业。他们活跃在重庆的每一个街角和码头，数十年来依靠肩挑背抗来为商贾旅人搬运货物与行李。然而，随着时代的变化，棒棒们似乎变得越来越难以适应，在岁月的更迭中，曾经年轻的小伙们已逐渐进入暮年。<br><br>作为一座江城，长江与嘉陵江的交汇碰撞出重庆的活力与灵气，重庆人民勤劳勇敢的品格始终如一，开放包容的精神也从未改变。<br><br>此外，重庆还被称为“雾都”，连绵的雾气为这座城市增添了几分神秘的氛围。重庆火龙是中国传统文化中的一种民间艺术，代表了重庆人民对美的追求与执着，象征着他们不断探索与创新的精神，以及始终秉持的“精益求精”的理念。'
- },
- project7: { 
- title: '足满人间', 
- videoId: 'BV1hV9aBGEUb', // Bilibili ID
- awards: '巴蜀文化旅游走廊大足石刻华服视频三等奖 + 荣登重庆日报',
- desc: '在这个创作中，我试图捕捉大足石刻前世今生的精髓，展现其古韵悠长与精神指引。通过细腻的镜头语言和生动的音效，观众仿佛置身于一股现世中的清流，感受到时间的缓缓流逝与自我内心的回归。我希望呈现出一种恍如置身唐宋年间的闲暇时光，观众在此沉浸于历史的厚重感与文化的底蕴。<br><br>潜心探寻禅意的表现手法，借助宁静的自然景观与石刻间的细节交融，作品将试图唤起观众对生活更深层次的思考与对内心平静的追求。通过这样的视觉与听觉体验，我力求让观众在欣赏艺术的同时，也能感受到那份自内而外的宁静与力量，从而为忙碌的现代生活注入一丝清新与灵性。',
- insp: '这个创作灵感源于“大道至简”的哲学理念，旨在通过重庆大足石刻的唯美艺术，传达出一种宁静而深邃的禅意氛围。大足石刻作为中华文化的瑰宝，蕴藏着丰富的历史与艺术价值，其精湛的雕刻技艺与深邃的宗教内涵让人陶醉。在快速变化的现代社会中，我们常常渴望找到一片属于自己的平静之地，而大足石刻正是这样的存在。'
- },
- project8: { 
- title: '81岁的HBN美少女', 
- videoId: 'BV1y89aBhEVA', // Bilibili ID
- awards: '第15届大学生广告艺术大赛优秀奖',
- desc: '影片采用黑白复古的色调处理，不仅增强了画面的艺术感，还仿佛将观众带回过去，为整个广告增添了一种独特的时光穿梭感。与此相辅相成的是轻快的音乐以及精准的广告词字幕，它们共同营造出愉悦的观赏体验。整个广告在欢笑中传递了关于产品核心价值的深刻内涵。这部作品意在通过欢笑与活力，消弭对衰老的恐惧，传递出美好生活的积极态度。',
- insp: '这个作品的创作灵感源于对时间与年龄的幽默思考，以及对人们对衰老焦虑的巧妙回应。我们希望通过——一个18岁与一个81岁的对比，展现生活中日常幽默的误会，以此反映出我们产品卓越“抗衰”功能的独特魅力。作品借鉴了卓别林电影中的经典元素，通过夸张的肢体语言和丰富的表情，创造出一场让人捧腹的视觉盛宴，旨在展现生命活力无关年龄。'
- },
- project9: { 
- title: '微醺一刻', 
- videoId: 'BV1UJ9aBME2Q', // Bilibili ID
- awards: '第33届时报金犊奖大陆赛区优秀广告设计奖 + 剪辑奖',
- desc: '作品策划了多个关键元素，以“微醺”效果为主题，形象化地将这一状态符号化，突出莎娃产品的独特功能。我们运用色彩丰富的视觉效果来增强产品表现力，通过强烈的色彩对比与生动的镜头切换，形成“境随心转”的视觉体验，使观众在欢快的乐曲中感受到生活的多样性与莎娃的独特魅力。',
- insp: '这个作品的创作灵感来源于对都市女性生活的观察和思考。在快节奏的都市生活中，女性消费者如同优雅的舞者，既追求健康与品质生活，又渴望在繁忙的旋律中找到属于自己的小确幸。这样的生活场景启发了我们创作这部作品。我们希望通过展现女性在面对生活多方困扰时，借助莎娃配制酒感受到微醺后的愉悦与放松，让她们在社交与独处中都能找到快乐。微醺的状态成为一种象征，代表着女性在生活的旋律中轻松旋转，重新找回自我，演绎属于自己的华丽乐章。'
- }
- },
- en: { // 英文版本也统一使用 Bilibili ID (videoId)
- project1: { 
- title: 'Peekaboo', 
- videoId: 'BV1x9RCBqEQp', // Bilibili ID
- awards: 'Champion + Best Narrative, 2026 Cyberport AI-Generated Film Competition',
- desc: 'As the independent producer of this film, after completing the script, I led the entire process from storyboarding, character design, animation generation, to post-synthesis using AIGC toolchains.',
- insp: 'This story stems from a simple question: when a patient with Alzheimer\'s disease gradually loses their memory, what do they most want to hold onto? While researching, I found a phenomenon: patients often forget things from minutes ago but vividly remember scenes from decades past.<br><br>So I imagined a "memory protocol"—while still remembered, seal the happiest moments in golden sunlight: lavender fields, amusement parks, hide-and-seek in a phone booth. The moment the camera clicks, the colors are full, warm, and alive.<br><br>I based this creation on the vast group of Alzheimer\'s patients, focusing on their most real predicament—forgetting the faces of loved ones, and even the aging self in the mirror. When memory breaks and language fails, we can still maintain connection with them through the simplest games.<br><br>Hide-and-seek. Count to a hundred, then I\'ll wait for you in our old spot. Companionship is the best medicine. This is what "Peekaboo" aims to convey.'
- },
- project2: { 
- title: 'Companion (Trailer)', 
- videoId: 'BV11dRCBKE78', // Bilibili ID
- desc: 'An ongoing personal exploration project, this is an AIGC creation experiment initiated by me, exploring the expressive boundaries of AI in cinematography and atmosphere creation.',
- story: '24-year-old white-collar worker Lin Wan falls into a dream after working late, witnessing three metaphors: a dancer in water holding a torch, oblivious to the chest-high flooding; laughing adults on a rooftop with childlike bodies but no innocence; and a dancer behind a stage fan losing her true self from wearing a mask too long. Waking up at her desk in the early hours, she realizes the essence of anxiety is not the fear of loss, but the fear of losing self-awareness in numb busyness. She eventually takes her resignation letter to the office, completing an awakening from "self-oblivion" to "conscious self-rescue."<br><br>The story deconstructs the existential predicament of contemporary youth through surreal dreams, discussing the alienation of humans by instrumental rationality and the return of subjective consciousness.'
- },
- project3: { 
- title: 'Love You Like a Movie', 
- videoId: 'BV1Pb9aBwEjS', // Bilibili ID
- awards: '3rd Prize in Chongqing Art Exhibition Microfilm + 1st Prize in University Skills Competition + Finalist in CSFF Film Festival',
- desc: '“Love You Like a Movie” is a music video that uses fixed and handheld shots to simulate a dramatic sense of intertwined time and space, giving the film a well-paced rhythm. It not only pays homage to romantic classics in the streets and alleys of Chongqing but also conveys deep reflections on the true meaning of "ideals," "love," and life. The theme evokes the pursuit of love and ideals, as well as an unyielding spirit.',
- insp: 'The inspiration for this work comes from the cinematic classics interwoven with light and shadow—the delicacy of "Love Letter," the brilliance of "La La Land," and the warmth of "Léon: The Professional"... They not only shaped my viewing trajectory but also gave me rich life experiences: deep thoughts in solitude, light dances in joy, and even relief after sacrifice. I dedicated myself to creating this work, allowing the protagonists to travel between reality and cinematic dreams, recreating classic moments of love films through the magic of parallel montage.'
- },
- project4: { 
- title: 'Dream of the Peach Blossom Clan', 
- videoId: 'BV1yQ9YBNEcc', // Bilibili ID
- awards: 'Excellent Graduation Project',
- desc: 'This work, exemplified by Zhai Jun, a custodian of clan culture, tells of his steadfast adherence to clan culture amidst rapid societal development. Through in-depth follow-up filming, it reveals the efforts Zhai Jun has made in upholding clan culture, and the persistence and responsibility he demonstrates when facing various challenges.<br><br>At the same time, this work focuses on exploring the contemporary value of clan culture. Using Zhai Jun\'s individual actions as a starting point, it aims to lead the public to reflect on the important significance of clan culture to individuals, families, and society. Centered on Zhai Jun\'s true story of preserving clan culture, the documentary seeks to explore traditional culture, aiming to awaken public attention to clan culture and resonate with it, working together for its inheritance.',
- insp: 'In my opinion, "dream" represents an individual\'s aspirations and hopes for the future, and can also refer to the shared direction and goals of a group. "Clan Dream" is the reconstruction of the Zhaishi clan culture of Shuidong. Looking back at those glorious years also brings expectations for a blossoming future. The proposal of "dream" in "Dream of the Peach Blossom Clan" presents Mr. Zhai Jun\'s deep affection for his family, and also serves as a re-examination of self-identity and culture in the context of globalization.<br><br>Similarly, the story experienced by Zhai Jun serves as a highly appropriate reminder for us, living in today\'s environment of multicultural conflict and integration. It makes us understand the importance of always maintaining our cultural identity and cultural recognition, firmly adhering to our cultural roots, and preserving cultural dignity. Let us hold fast to our cultural roots, respect and appreciate each other\'s cultures, jointly safeguard the diverse cultures of humanity, and strive to build a better world for all.'
- },
- project5: { 
- title: 'Spring禾 & Autumn野 - The Bakery Awaiting Wind and You', 
- videoId: 'BV1Df9eBEEzT', // Bilibili ID
- desc: 'This film, centered on "freedom," documents the daily life of Xiao Ye, the owner of the "Chunheqiuye" bakery in Chongqing\'s Nanshan. We do not intend to tell a story of successful entrepreneurship, but rather to present a choice: what kind of mornings, evenings, and seasons one experiences when they decide to live at the pace of dough fermentation and measure time by the warmth of a kiln fire.<br><br>The film employs an observational documentary style, avoiding dramatic conflict. Through daily details such as kneading dough, waiting, baking, and conversing with customers, the three words "relaxed, slow, free" etched into the shop naturally grow into the visuals. We hope the audience is illuminated by the light from rising flour, touched by the aroma of freshly baked bread, and prompted to ask themselves—what does my understanding of freedom look like?',
- insp: 'Chunheqiuye: Spring is fermentation, He is wheat fields, Qiu is kiln fire, Ye is Nanshan. Spring kneads in mountain mist and yeast, summer endures the humid wait, autumn bakes crispy crusts the color of fallen leaves, winter wraps the chill outside the window in dough. Let each batch of bread become a fruit of time, and let this small shop become a solar term on the edge of the city—reminding those hurrying down the mountain: some aromas are worth a whole mountain\'s slow nurturing.<br><br>The backdrop to all of this is Xiao Ye\'s constant saying: "Love, for me, means I\'m willing to start over no matter how many times." She says her entire ambition is a life of freedom. A wooden sign on the ordering counter is carved with three words: "Relaxed, Slow, Free."<br><br>Thus, the meaning of this bakery becomes even clearer: its aroma is not just for the palate, but a silent invitation—to let everyone who pushes open the wooden door try, try to pause in the scent of wheat, try to relearn freedom at the pace of fermenting dough.'
- },
- project6: { 
- title: 'City of Echoing Rhymes', 
- videoId: 'BV1KW9aBvExD', // Bilibili ID
- awards: '3rd Prize in Chongqing "IP·Future Creation" Humanities Documentary Short Film + Excellent Copyright Award',
- desc: '"City of Echoing Rhymes" is a short documentary focusing on the humanistic spirit of Chongqing, aiming to collect and preserve the rich cultural heritage of this city. During filming, it was the plum rain season, and the scenes were often filled with rain, creating a slightly cool tone. Through blurred individuals and distinct silhouettes, we conveyed the spirit of the "Bangbang" porters.<br><br>The Chuanjiang Haozi (river chants) are the labor symphony of the Sichuan-Chongqing region, and boatmen symbolize Chongqing\'s openness and inclusiveness on the river. The filming location was the last car ferry terminal in Chongqing\'s main urban area, where we saw the persistence and struggle of yesterday\'s laborers in modern boatmen.<br><br>The Zhongao Fire Dragon was listed as a municipal intangible cultural heritage by the Chongqing municipal government in 2012. It evolved from an initial "loyalty and filial piety" cultural activity into a widely participated folk custom for blessings and good fortune. The inheritor is an elderly gentleman in his seventies, whose dedication to the fire dragon production craft and love for fire dragon culture were authentically recorded on camera.',
- insp: 'The inspiration for this work stems from my deep reflection on the development and changes of Chongqing. Due to the unique geographical environment of Chongqing, a mountain city, the "Bangbang" porters emerged as a special occupation. They are active in every corner and dock of Chongqing, carrying goods and luggage for merchants and travelers for decades, relying on their shoulders and backs. However, with the changes of the times, the Bangbang seem to be increasingly unable to adapt, and in the cycle of years, the once young men have gradually entered old age.<br><br>As a river city, the confluence of the Yangtze and Jialing rivers sparks Chongqing\'s vitality and spirit. The diligent and brave character of Chongqing people remains consistent, and their open and inclusive spirit has never changed.<br><br>In addition, Chongqing is also known as the "Fog City," and the continuous mist adds a mysterious atmosphere to the city. The Chongqing Fire Dragon is a folk art in traditional Chinese culture, representing the Chongqing people\'s pursuit and dedication to beauty, symbolizing their spirit of continuous exploration and innovation, and their always adhering to the concept of "striving for excellence."'
- },
- project7: { 
- title: 'Joy in the World', 
- videoId: 'BV1hV9aBGEUb', // Bilibili ID
- awards: '3rd Prize in Bashu Culture Tourism Corridor Dazu Rock Carvings Chinese Attire Video + Featured in Chongqing Daily',
- desc: 'In this creation, I tried to capture the essence of Dazu Rock Carvings\' past and present, showcasing its ancient charm and spiritual guidance. Through delicate cinematic language and vivid sound effects, the audience feels as if they are in a clear stream of the present world, experiencing the slow passage of time and the return to their inner self. I hope to present a leisurely time as if in the Tang and Song dynasties, where the audience can immerse themselves in the profound history and cultural heritage.<br><br>Delving into the expression of Zen, by blending tranquil natural landscapes with details among the rock carvings, the work attempts to evoke deeper reflections on life and the pursuit of inner peace. Through such visual and auditory experiences, I strive to allow the audience to appreciate art while also feeling an inner tranquility and strength, thereby injecting a touch of freshness and spirituality into busy modern life.',
- insp: 'The inspiration for this creation comes from the philosophical concept of "simplicity to the ultimate," aiming to convey a tranquil and profound Zen atmosphere through the exquisite art of Dazu Rock Carvings in Chongqing. As a treasure of Chinese culture, Dazu Rock Carvings embody rich historical and artistic values, with their exquisite carving techniques and profound religious connotations being captivating. In a rapidly changing modern society, we often long for a peaceful place of our own, and Dazu Rock Carvings are precisely such an existence.'
- },
- project8: { 
- title: 'The 81-Year-Old HBN Beauty', 
- videoId: 'BV1y89aBhEVA', // Bilibili ID
- awards: 'Excellent Award in the 15th University Advertising Art Competition',
- desc: 'The film adopts a black and white retro color treatment, which not only enhances the artistic sense of the picture but also seems to transport the audience back in time, adding a unique sense of time travel to the entire advertisement. Complementing this are cheerful music and precise advertising subtitles, which together create a pleasant viewing experience. The entire advertisement conveys the profound connotation of the product\'s core value through laughter. This work aims to eliminate the fear of aging through laughter and vitality, conveying a positive attitude towards a beautiful life.',
- insp: 'The inspiration for this work comes from a humorous reflection on time and age, and a clever response to people\'s anxiety about aging. We hope to show the daily humorous misunderstandings in life through a comparison between an 18-year-old and an 81-year-old, thereby reflecting the unique charm of our product\'s excellent "anti-aging" function. The work draws on classic elements from Chaplin\'s films, creating a hilarious visual feast through exaggerated body language and rich expressions, aiming to demonstrate that life vitality is independent of age.'
- },
- project9: { 
- title: 'A Tipsy Moment', 
- videoId: 'BV1UJ9aBME2Q', // Bilibili ID
- awards: 'Excellent Advertising Design Award + Editing Award in the 33rd Times Young Creative Awards China Region',
- desc: 'The project planned several key elements, focusing on the "tipsy" effect as a theme, symbolizing this state to highlight the unique function of the Shawa product. We used rich color visual effects to enhance product expressiveness, creating a "mood-driven visual experience" through strong color contrast and vivid shot transitions, allowing the audience to feel the diversity of life and the unique charm of Shawa amidst cheerful music.',
- insp: 'The inspiration for this work comes from observations and reflections on the lives of urban women. In the fast-paced urban life, female consumers are like elegant dancers, pursuing both health and quality of life, while also longing to find their own little joys amidst the busy rhythm. Such life scenes inspired us to create this work. We hope to show how women, when facing various life challenges, can feel the joy and relaxation after a slight tipsiness with Shawa mixed drinks, allowing them to find happiness both in social settings and in solitude. The tipsy state becomes a symbol, representing women gracefully twirling through the rhythm of life, rediscovering themselves, and performing their own magnificent movements.'
- }
+ en: {
+   project1: { title: 'Peekaboo', videoId: 'BV1x9RCBqEQp', tags: ['AIGC Short', 'Independent'], tagFull: 'Champion + Best Narrative, Cyberport AI-Generated Film Comp', awards: 'Champion + Best Narrative, 2026 Cyberport AI-Generated Film Competition', desc: 'As the independent producer, after completing the script, I led storyboarding, character design, animation generation, and post-synthesis using AIGC toolchains.', insp: 'A story about Alzheimer\'s: a "memory protocol" seals happy moments in golden sunlight. Hide-and-seek, companionship is the best medicine.' },
+   project2: { title: 'Companion (Trailer)', videoId: 'BV11dRCBKE78', tags: ['AIGC Drama', 'Director/Producer'], tagFull: 'Fantasy / Drama / Psychological Surrealism', desc: 'An ongoing personal AIGC creation experiment, exploring AI\'s boundaries in cinematography and atmosphere.', story: 'Lin Wan falls into a surreal dream, facing metaphors of drowning, masked dances, awakening from numbness to self-rescue.' },
+   project3: { title: 'Love You Like a Movie', videoId: 'BV1Pb9aBwEjS', tags: ['Short Film/MV', 'Director/Writer'], tagFull: '3rd Prize in Chongqing Art Exhibition + University Skills 1st Prize + CSFF Finalist', awards: '3rd Prize + University Skills 1st Prize + CSFF Finalist', desc: 'A music video using fixed and handheld shots to create a sense of intertwined time and space, paying homage to classic romance.', insp: 'Inspired by "Love Letter", "La La Land", and "Léon".' },
+   project4: { title: 'Dream of the Peach Blossom Clan', videoId: 'BV1yQ9YBNEcc', tags: ['Documentary', 'Independent'], tagFull: 'Excellent Graduation Project', awards: 'Excellent Graduation Project', desc: 'The perseverance of clan culture inheritor Zhai Jun, exploring the contemporary value of ancestral heritage.', insp: 'Clan dream as cultural reconstruction in a globalized era.' },
+   project5: { title: 'Spring Harvest · Waiting for You', videoId: 'BV1Df9eBEEzT', tags: ['Documentary', 'Editor'], tagFull: 'Documentary / Humanity', desc: 'A mountain bakery life in Chongqing, capturing freedom and slow living.', insp: 'Bread fermented with time, inviting everyone to relearn freedom.' },
+   project6: { title: 'City of Echoing Rhymes', videoId: 'BV1KW9aBvExD', tags: ['Doc/Humanity', 'Director/DP'], tagFull: '3rd Prize + Excellent Copyright Award, Chongqing IP Competition', awards: '3rd Prize + Excellent Copyright Award', desc: 'The spirit of porters, dragon heritage, and the foggy city\'s resilient culture.', insp: 'Reflection on modernization and the timeless spirit of Chongqing.' },
+   project7: { title: 'Joy in the World', videoId: 'BV1hV9aBGEUb', tags: ['Cultural Promo', 'Art/Editor'], tagFull: '3rd Prize + Featured in Chongqing Daily, Dazu Rock Carvings', awards: '3rd Prize + Featured in Chongqing Daily', desc: 'Zen atmosphere of Dazu Rock Carvings, merging heritage with inner peace.', insp: 'The philosophy of "Greatness in simplicity".' },
+   project8: { title: 'The 81-Year-Old HBN Beauty', videoId: 'BV1y89aBhEVA', tags: ['Creative Ad', 'Director'], tagFull: 'Excellence Award, 15th University Ad Competition', awards: 'Excellence Award, 15th University Advertising Art Competition', desc: 'Black-and-white comedy comparing 18 vs 81, celebrating ageless vitality.', insp: 'Humorous response to aging anxiety, Chaplin style.' },
+   project9: { title: 'A Tipsy Moment', videoId: 'BV1UJ9aBME2Q', tags: ['Creative Ad', 'Director/Editor'], tagFull: 'Excellent Design + Editing Award, Times Young Creative Awards', awards: 'Excellent Advertising Design Award + Editing Award', desc: 'Vivid colors and tipsy metaphors empower urban women\'s confidence.', insp: 'Observing modern women\'s life: tipsy as a joyful release.' }
  }
  };
 
- let currentLang = 'zh'; 
- let typed; // Declare typed variable globally or in a scope accessible by switchLanguage
-
- const langSwitcher = document.querySelector('.lang-switcher'); 
- const langButtons = document.querySelectorAll('.lang-btn'); 
- const projectModal = document.getElementById('projectModal'); 
- const projectModalContent = document.getElementById('modal-body-content'); 
- const projectCloseBtn = projectModal.querySelector('.close-button'); 
- const wechatBtn = document.getElementById('wechat-btn'); 
- const wechatModal = document.getElementById('wechatModal'); 
- const wechatCloseBtn = wechatModal.querySelector('.close-button'); 
- const wechatIdSpan = wechatModal.querySelector('.wechat-id'); 
- const copyFeedback = wechatModal.querySelector('.copy-feedback');
- const typedOutputElement = document.querySelector('.typed-output .static-role');
-
- function initializeTypedJs(lang) {
- if (typed) {
- typed.destroy(); // Destroy previous instance if it exists
+ // ================= 翻译文本 =================
+ const translations = {
+ zh: {
+   nav_portfolio: '作品集', nav_timeline: '个人履历', nav_about: '关于我', nav_contact: '联系我',
+   hero_greeting: '你好，我是', hero_intro: '主导影视全流程制作，对项目视觉质量负责。<br>探索并推动AIGC在影视中的落地应用。',
+   hero_btn_explore: '探索作品', hero_btn_cv: '下载简历', typing_strings: ['影视导演', 'AIGC导演', '视觉叙事者'],
+   portfolio_title: '作品集', portfolio_subtitle: 'AIGC影像 | 纪录片 | MV | 商业广告。<br>叙事逻辑清晰，视觉风格统一。',
+   cat_aigc: 'AIGC 影像', cat_mv: '微电影 / 音乐MV', cat_doc: '纪录片', cat_commercial: '商业广告 / 宣传片',
+   timeline_title: '个人履历', timeline_subtitle: '教育背景、实践经历与主要成就<br>懂创作的制片人，会管理的创作者。',
+   t1_title: '硕士在读', t1_school: '2025.09 - 至今 | 香港浸会大学 | 电影、电视与新媒体制片专业',
+   t1_p1: '<strong>AIGC短片《Peekaboo》</strong>获2026香港数码港AI生成电影大赛 <strong>冠军 + 最佳叙事奖</strong>（独立制作）',
+   t1_p2: '<strong>荣誉：</strong>二等奖学金', t2_title: '编导实习', t2_p1: '2024.02 - 2024.06 | <strong>华龙网</strong> | 独立完成16期视频节目全流程',
+   t3_title: '项目经历', t3_p1: '2023.07 - 2023.08 | 重庆咔什文化 | 制片助理', t3_p2: '2023.01 - 2023.02 | 芜湖文旅局 | 新媒体运营',
+   t4_title: '本科教育', t4_major: '重庆师范大学 | 影视摄影与制作专业', t4_p1: '安徽省编导统考<strong>第2名</strong>', t4_p2: '<strong>荣誉</strong>：优秀毕业生、一等奖学金2次',
+   about_title: '<strong>香港浸会大学影视硕士在读</strong>', about_p1: '我精通Nano banana、可灵、即梦、Midjourney等AIGC工具，同时具备影视全流程制作经验。',
+   about_p2: '我善于将新技术融入传统创作流程，提升效率与表现力。', about_p3: '期待将全流程制作能力与AI工具经验结合，为团队创造实际价值。',
+   contact_title: '建立联系', contact_subtitle: '期待与您交流AIGC项目合作、导演/编导岗位机会。',
+   footer_copyright: '© 2026 王渼荃. All Rights Reserved.', modal_awards: '获奖情况', modal_desc: '创作说明', modal_insp: '创作灵感', modal_story: '故事梗概',
+   wechat_modal_title: '添加我的微信', wechat_modal_p: '请扫码或复制下方微信号添加', wechat_copy_feedback: '已复制!'
+ },
+ en: {
+   nav_portfolio: 'Projects', nav_timeline: 'Timeline', nav_about: 'About', nav_contact: 'Contact',
+   hero_greeting: "Hi, I'm", hero_intro: 'Leading end-to-end production, responsible for visual quality.<br>Exploring AIGC integration in filmmaking.',
+   hero_btn_explore: 'Explore Works', hero_btn_cv: 'Download CV', typing_strings: ['Film Director', 'AIGC Director', 'Visual Storyteller'],
+   portfolio_title: 'Portfolio', portfolio_subtitle: 'AIGC | Documentary | MV | Commercials.<br>Clear narrative logic, unified visual style.',
+   cat_aigc: 'AIGC Cinema', cat_mv: 'Short Film / MV', cat_doc: 'Documentary', cat_commercial: 'Commercial / Promo',
+   timeline_title: 'Timeline', timeline_subtitle: 'Education, Experience & Achievements<br>A producer who understands creation.',
+   t1_title: "Master's Candidate", t1_school: "2025-Present | HKBU | MA in Film, TV & New Media",
+   t1_p1: '<strong>AIGC short "Peekaboo"</strong> won Champion + Best Narrative at Cyberport AI Film Comp',
+   t1_p2: '<strong>Honor:</strong> Second-Class Scholarship', t2_title: 'Directing Intern', t2_p1: 'Feb 2024 - Jun 2024 | Hualong-net | Full lifecycle of 16 episodes',
+   t3_title: 'Project Experience', t3_p1: 'Jul 2023 - Aug 2023 | Production Assistant', t3_p2: 'Jan 2023 - Feb 2023 | New Media Operator',
+   t4_title: 'Undergraduate', t4_major: 'Chongqing Normal University | BA in Cinematography', t4_p1: 'Ranked 2nd in Anhui Exam', t4_p2: 'Honors: Outstanding Graduate, Scholarships',
+   about_title: '<strong>MA Candidate at HKBU</strong>', about_p1: 'Proficient in AIGC tools (Nano banana, Kling, Midjourney) and full production pipeline.',
+   about_p2: 'I excel at integrating new tech into traditional workflows.', about_p3: 'Combine full-process skills with AI expertise to create value.',
+   contact_title: 'Get In Touch', contact_subtitle: 'Open to AIGC collaborations, director/producer roles.',
+   footer_copyright: '© 2026 Meiquan Wang. All Rights Reserved.', modal_awards: 'Awards', modal_desc: "Director's Statement", modal_insp: 'Inspiration', modal_story: 'Synopsis',
+   wechat_modal_title: 'Add Me on WeChat', wechat_modal_p: 'Scan QR or copy ID', wechat_copy_feedback: 'Copied!'
  }
- typed = new Typed(typedOutputElement, {
- strings: translations[lang].typing_strings,
- typeSpeed: 70,
- backSpeed: 40,
- loop: true,
- showCursor: true,
- cursorChar: '|',
- });
- }
- 
- function switchLanguage(lang) { 
- if (!translations[lang]) return; 
- currentLang = lang; 
- document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en'; 
- 
- document.querySelectorAll('[data-lang-key]').forEach(el => { 
- const key = el.getAttribute('data-lang-key'); 
- if (translations[lang][key] !== undefined) { 
- // For tags, we use innerHTML directly because it contains <span> and <br>
- if (el.classList.contains('tags')) {
- el.innerHTML = translations[lang][key];
- } else {
- el.innerHTML = translations[lang][key]; 
- }
- }
- }); 
- 
- initializeTypedJs(lang); // Re-initialize Typed.js for the new language
- 
- langButtons.forEach(btn => btn.classList.toggle('active', btn.getAttribute('data-lang') === lang)); 
- }
- 
- function openProjectModal(projectId) { 
- const projectData = projectsData[currentLang][projectId]; 
- if (!projectData) return; 
- 
- let videoPlayerHtml = ''; 
- // 统一使用 Bilibili 播放器，通过 videoId 加载
- if (projectData.videoId) { 
- videoPlayerHtml = `<iframe src="//player.bilibili.com/player.html?bvid=${projectData.videoId}&page=1&as_wide=1&high_quality=1&danmaku=0" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>`; 
- } else {
- // 如果没有 videoId，可以显示一个占位符或者错误信息
- videoPlayerHtml = `<div style="text-align: center; padding: 50px; background-color: #333; color: #fff;">Video not available.</div>`;
- }
- 
- let detailsHtml = `<div class="modal-details"><h3>${projectData.title}</h3>`; 
- if (projectData.awards) { detailsHtml += `<h4>${translations[currentLang].modal_awards}</h4><p>${projectData.awards}</p>`; } 
- if (projectData.desc) { detailsHtml += `<h4>${translations[currentLang].modal_desc}</h4><p>${projectData.desc}</p>`; } 
- if (projectData.story) { detailsHtml += `<h4>${translations[currentLang].modal_story}</h4><p>${projectData.story}</p>`; } 
- if (projectData.insp) { detailsHtml += `<h4>${translations[currentLang].modal_insp}</h4><p>${projectData.insp}</p>`; } 
- detailsHtml += '</div>'; 
- 
- projectModalContent.innerHTML = `<div class="modal-video-container">${videoPlayerHtml}</div>${detailsHtml}`; 
- projectModal.style.display = 'block'; 
- document.body.style.overflow = 'hidden'; 
- }
- 
- function closeProjectModal() { 
- projectModal.style.display = 'none'; 
- projectModalContent.innerHTML = ''; 
- if (wechatModal.style.display !== 'block') { 
- document.body.style.overflow = ''; 
- } 
- }
- 
- function openWechatModal() { 
- const wechatId = wechatBtn.getAttribute('data-wechat-id'); 
- wechatIdSpan.textContent = wechatId; 
- wechatModal.querySelector('[data-lang-key="wechat_modal_title"]').innerHTML = translations[currentLang].wechat_modal_title; 
- wechatModal.querySelector('[data-lang-key="wechat_modal_p"]').innerHTML = translations[currentLang].wechat_modal_p; 
- copyFeedback.textContent = ''; 
- wechatModal.style.display = 'block'; 
- document.body.style.overflow = 'hidden'; 
- }
- 
- function closeWechatModal() { 
- wechatModal.style.display = 'none'; 
- if (projectModal.style.display !== 'block') { 
- document.body.style.overflow = ''; 
- } 
- }
- 
- langSwitcher.addEventListener('click', (e) => { 
- e.preventDefault(); 
- const lang = e.target.getAttribute('data-lang'); 
- if (lang && lang !== currentLang) { 
- switchLanguage(lang); 
- } 
- }); 
- 
- document.querySelectorAll('.project-card').forEach(card => { 
- card.addEventListener('click', () => { 
- const projectId = card.getAttribute('data-project-id'); 
- openProjectModal(projectId); 
- }); 
- }); 
- 
- wechatBtn.addEventListener('click', function (e) { 
- e.preventDefault(); 
- openWechatModal(); 
- }); 
- 
- wechatIdSpan.addEventListener('click', function () { 
- navigator.clipboard.writeText(this.textContent).then(() => { 
- copyFeedback.textContent = translations[currentLang].wechat_copy_feedback; 
- setTimeout(() => { 
- copyFeedback.textContent = ''; 
- }, 2000); 
- }); 
- }); 
- 
- projectCloseBtn.onclick = closeProjectModal; 
- wechatCloseBtn.onclick = closeWechatModal; 
- 
- window.onclick = function (event) { 
- if (event.target == projectModal) { 
- closeProjectModal(); 
- } 
- if (event.target == wechatModal) { 
- closeWechatModal(); 
- } 
  };
-
- // Add keyboard accessibility for modals
- document.addEventListener('keydown', function(event) {
- if (event.key === 'Escape') {
- if (projectModal.style.display === 'block') {
- closeProjectModal();
- }
- if (wechatModal.style.display === 'block') {
- closeWechatModal();
- }
- }
- });
  
- switchLanguage('zh'); // 页面加载时默认中文
+ let currentLang = 'zh';
+ let typedInstance = null;
+ 
+ function initTyped() {
+   if (typedInstance) typedInstance.destroy();
+   const strings = translations[currentLang].typing_strings;
+   typedInstance = new Typed('#typed-role', { strings: strings, typeSpeed: 70, backSpeed: 40, backDelay: 1800, loop: true, cursorChar: '|' });
+ }
+ 
+ function renderPortfolio() {
+   const grid = document.getElementById('portfolioGrid');
+   const categories = [
+     { key: 'cat_aigc', ids: ['project1','project2'] },
+     { key: 'cat_doc', ids: ['project3','project4','project5'] },  // 注意索引对应
+     { key: 'cat_mv', ids: ['project6'] },
+     { key: 'cat_commercial', ids: ['project7','project8','project9'] }
+   ];
+   // 修正映射：纪录片组应使用project3(桃花宗梦),project4(春禾秋野),project5(重韵之城) 根据上面数据顺序
+   const fixedCat = [
+     { key: 'cat_aigc', ids: ['project1','project2'] },
+     { key: 'cat_doc', ids: ['project4','project5','project6'] },
+     { key: 'cat_mv', ids: ['project3'] },
+     { key: 'cat_commercial', ids: ['project7','project8','project9'] }
+   ];
+   let html = '';
+   for (let cat of fixedCat) {
+     html += `<h3 class="portfolio-category-title" data-lang-key="${cat.key}">${translations[currentLang][cat.key] || ''}</h3>`;
+     for (let pid of cat.ids) {
+       const proj = projectsData[currentLang][pid];
+       if (!proj) continue;
+       html += `<div class="project-card" data-project-id="${pid}">
+                  <div class="project-image"><img src="assets/images/project-${pid.replace('project','')}.jpg" onerror="this.src='assets/images/placeholder.jpg'" alt="${proj.title}"></div>
+                  <div class="project-content">
+                    <h3>${proj.title}</h3>
+                    <div class="tags">
+                      <span class="tag-item">${proj.tags[0]}</span>
+                      <span class="tag-item">${proj.tags[1]}</span>
+                    </div>
+                    <span class="tag-item-full">${proj.tagFull}</span>
+                  </div>
+                </div>`;
+     }
+   }
+   grid.innerHTML = html;
+   document.querySelectorAll('.project-card').forEach(card => {
+     card.addEventListener('click', (e) => { const id = card.getAttribute('data-project-id'); if(id) openModal(id); });
+   });
+ }
+ 
+ function openModal(pid) {
+   const data = projectsData[currentLang][pid];
+   if (!data) return;
+   const videoSrc = `//player.bilibili.com/player.html?bvid=${data.videoId}&page=1&high_quality=1&danmaku=0`;
+   let details = `<div class="modal-details"><h3>${data.title}</h3>`;
+   if (data.awards) details += `<h4>${translations[currentLang].modal_awards}</h4><p>${data.awards}</p>`;
+   if (data.desc) details += `<h4>${translations[currentLang].modal_desc}</h4><p style="text-indent:2em">${data.desc}</p>`;
+   if (data.insp) details += `<h4>${translations[currentLang].modal_insp}</h4><p style="text-indent:2em">${data.insp}</p>`;
+   if (data.story) details += `<h4>${translations[currentLang].modal_story}</h4><p style="text-indent:2em">${data.story}</p>`;
+   details += `</div>`;
+   document.getElementById('modal-body-content').innerHTML = `<div class="modal-video-container"><iframe src="${videoSrc}" allowfullscreen></iframe></div>${details}`;
+   document.getElementById('projectModal').style.display = 'block';
+   document.body.style.overflow = 'hidden';
+ }
+ 
+ function closeModal() { document.getElementById('projectModal').style.display = 'none'; document.body.style.overflow = ''; }
+ 
+ function renderTimeline() {
+   const container = document.getElementById('timelineContainer');
+   if (!container) return;
+   container.innerHTML = `
+     <div class="timeline-item"><div class="timeline-dot">NOW</div><div class="timeline-content"><h4 data-lang-key="t1_title"></h4><p data-lang-key="t1_school"></p><ul><li data-lang-key="t1_p1"></li><li data-lang-key="t1_p2"></li></ul></div></div>
+     <div class="timeline-item"><div class="timeline-dot">2024</div><div class="timeline-content"><h4 data-lang-key="t2_title"></h4><ul><li data-lang-key="t2_p1"></li></ul></div></div>
+     <div class="timeline-item"><div class="timeline-dot">2023</div><div class="timeline-content"><h4 data-lang-key="t3_title"></h4><ul><li data-lang-key="t3_p1"></li><li data-lang-key="t3_p2"></li></ul></div></div>
+     <div class="timeline-item"><div class="timeline-dot">2021</div><div class="timeline-content"><h4 data-lang-key="t4_title"></h4><p data-lang-key="t4_major"></p><ul><li data-lang-key="t4_p1"></li><li data-lang-key="t4_p2"></li></ul></div></div>`;
+ }
+ 
+ function switchLanguage(lang) {
+   if (!translations[lang]) return;
+   currentLang = lang;
+   document.querySelectorAll('[data-lang-key]').forEach(el => {
+     const key = el.getAttribute('data-lang-key');
+     if (translations[lang][key] !== undefined) el.innerHTML = translations[lang][key];
+   });
+   document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.toggle('active', btn.getAttribute('data-lang') === lang));
+   renderPortfolio();
+   renderTimeline();
+   initTyped();
+ }
+ 
+ renderTimeline();
+ renderPortfolio();
+ initTyped();
+ switchLanguage('zh');
+ 
+ document.querySelector('.lang-switcher').addEventListener('click', (e) => {
+   const btn = e.target.closest('.lang-btn');
+   if (btn) { e.preventDefault(); const l = btn.getAttribute('data-lang'); if(l && l !== currentLang) switchLanguage(l); }
+ });
+ document.querySelector('#projectModal .close-button').onclick = closeModal;
+ document.querySelector('#wechatModal .close-button').onclick = () => { document.getElementById('wechatModal').style.display = 'none'; document.body.style.overflow = ''; };
+ document.getElementById('wechat-btn').onclick = (e) => { e.preventDefault(); document.getElementById('wechatModal').style.display = 'block'; document.body.style.overflow = 'hidden'; };
+ window.onclick = (e) => { if(e.target == document.getElementById('projectModal')) closeModal(); if(e.target == document.getElementById('wechatModal')){ document.getElementById('wechatModal').style.display='none'; document.body.style.overflow=''; } };
+ const wechatSpan = document.querySelector('#wechatModal .wechat-id');
+ if(wechatSpan) {
+   wechatSpan.innerText = 'Daisy__light';
+   wechatSpan.onclick = () => { navigator.clipboard.writeText('Daisy__light'); const fb = document.querySelector('#wechatModal .copy-feedback'); if(fb){ fb.innerText = translations[currentLang].wechat_copy_feedback; setTimeout(()=>fb.innerText='',1500); } };
+ }
 });
 </script>
-
 </body>
 </html>
